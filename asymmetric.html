@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Asymmetric Encryption (RSA)</h1>
+
+<p>
+  Asymmetric encryption uses a mathematically linked key pair — a public key to encrypt
+  and a private key to decrypt. The two keys are different, yet connected.
+</p>
+
+<hr>
+
+<h2>// Encrypt & Decrypt</h2>
+
+<form method="POST">
+  <label>Enter Message</label>
+  <input type="text" name="message" placeholder="Type your message here" required>
+  <br><br>
+  <button type="submit">Encrypt & Decrypt</button>
+</form>
+
+{% if encrypted %}
+<hr>
+<h3>Encrypted Message</h3>
+<div class="box">{{ encrypted }}</div>
+
+<h3>Decrypted Message</h3>
+<div class="box">{{ decrypted }}</div>
+{% endif %}
+
+<hr>
+
+<h2>// How It Works</h2>
+
+<ul>
+  <li>A 2048-bit RSA key pair is generated on each request</li>
+  <li>The public key encrypts the message using OAEP padding</li>
+  <li>Only the matching private key can decrypt it</li>
+  <li>Used in HTTPS, email encryption, and digital signatures</li>
+  <li>Much slower than symmetric encryption — typically used to exchange keys</li>
+</ul>
+
+{% endblock %}

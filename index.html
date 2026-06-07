@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="hero">
+  <div class="hero-badge">// SECURE SYSTEMS DEMO v2.0</div>
+  <h1>Cryptography Learning Platform</h1>
+  <p>Explore the core pillars of modern cryptography — encryption, hashing, and emerging threats.</p>
+</div>
+
+<div class="cards">
+
+  <a href="/symmetric" class="card">
+    <span class="card-icon">🔑</span>
+    <h3>Symmetric</h3>
+    <p>Same key encrypts and decrypts. Fast and efficient for secure data transfer.</p>
+  </a>
+
+  <a href="/asymmetric" class="card">
+    <span class="card-icon">🔐</span>
+    <h3>Asymmetric</h3>
+    <p>Public/private key pairs. The backbone of HTTPS, email encryption, and digital signatures.</p>
+  </a>
+
+  <a href="/hashing" class="card">
+    <span class="card-icon">🧬</span>
+    <h3>Hashing</h3>
+    <p>One-way transformation. Used in password storage, blockchains, and data integrity checks.</p>
+  </a>
+
+  <a href="/threats" class="card">
+    <span class="card-icon">⚠️</span>
+    <h3>Threats</h3>
+    <p>AI and quantum computing are reshaping the battlefield. See what's coming next.</p>
+  </a>
+
+</div>
+
+{% endblock %}

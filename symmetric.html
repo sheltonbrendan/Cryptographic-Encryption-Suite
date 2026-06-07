@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Symmetric Encryption</h1>
+
+<p>
+  Symmetric encryption uses a single secret key for both encryption and decryption.
+  It is fast, efficient, and widely used in secure communication systems.
+</p>
+
+<hr>
+
+<h2>// Encrypt & Decrypt</h2>
+
+<form method="POST">
+  <label>Enter Message</label>
+  <input type="text" name="message" placeholder="Type your message here" required>
+  <br><br>
+  <button type="submit">Encrypt & Decrypt</button>
+</form>
+
+{% if encrypted %}
+<hr>
+<h3>Encrypted Message</h3>
+<div class="box">{{ encrypted }}</div>
+
+<h3>Decrypted Message</h3>
+<div class="box">{{ decrypted }}</div>
+{% endif %}
+
+<hr>
+
+<h2>// How It Works</h2>
+
+<ul>
+  <li>A secret key is generated using Python's Fernet (AES-128 under the hood)</li>
+  <li>The same key encrypts and decrypts the message</li>
+  <li>If the key is lost, the data cannot be recovered</li>
+  <li>Fernet guarantees data integrity — tampered data will be rejected</li>
+</ul>
+
+{% endblock %}

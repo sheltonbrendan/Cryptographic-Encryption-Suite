@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Hashing (SHA-256)</h1>
+
+<p>
+  Hashing is a one-way cryptographic process that converts any input into a fixed-length fingerprint.
+  It is irreversible — you cannot recover the original data from the hash alone.
+</p>
+
+<hr>
+
+<h2>// SHA-256 Hash Generator</h2>
+
+<form method="POST">
+  <label>Enter Text or Password</label>
+  <input type="text" name="text" placeholder="e.g. password123" required>
+  <br><br>
+  <button type="submit">Generate Hash</button>
+</form>
+
+{% if result %}
+<hr>
+<h3>Hash Output</h3>
+<div class="box">{{ result }}</div>
+<p>⚠️ Even a single character change produces a completely different hash.</p>
+{% endif %}
+
+<hr>
+
+<h2>// How It Works</h2>
+
+<ul>
+  <li>Input is processed through a deterministic mathematical algorithm</li>
+  <li>Output is always 256 bits (64 hex characters) regardless of input size</li>
+  <li>It is computationally infeasible to reverse the hash</li>
+  <li>Identical inputs always produce the same hash (deterministic)</li>
+  <li>Used in blockchains, password storage, and digital signatures</li>
+</ul>
+
+{% endblock %}

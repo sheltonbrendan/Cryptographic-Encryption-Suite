@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Emerging Threats</h1>
+
+<p>
+  Modern cryptography faces evolving threats from two fronts: Artificial Intelligence
+  and Quantum Computing. Both are reshaping attack strategies and defense systems alike.
+</p>
+
+<hr>
+
+<div class="threat-card">
+  <h2>🤖 Artificial Intelligence</h2>
+  <ul>
+    <li>AI automates cyberattacks — phishing, malware generation, and social engineering</li>
+    <li>Large language models craft highly convincing scam messages at scale</li>
+    <li>Deepfake technology can impersonate voices and faces with alarming accuracy</li>
+    <li>Defenders also use AI: anomaly detection, threat intelligence, and automated response</li>
+  </ul>
+  <p>AI amplifies both the attacker and the defender — the arms race accelerates.</p>
+</div>
+
+<div class="threat-card">
+  <h2>⚛️ Quantum Computing</h2>
+  <ul>
+    <li>Quantum computers can solve problems classical computers cannot in feasible time</li>
+    <li>Shor's Algorithm threatens RSA and ECC public-key cryptography</li>
+    <li>Encrypted data captured today may be decrypted by quantum computers tomorrow</li>
+    <li>Symmetric encryption (AES) is less vulnerable but requires larger key sizes</li>
+  </ul>
+  <p>This creates critical timeline pressure for migrating to quantum-safe systems.</p>
+</div>
+
+<div class="threat-card">
+  <h2>🔐 Post-Quantum Cryptography</h2>
+  <ul>
+    <li>New algorithms designed to resist both classical and quantum attacks</li>
+    <li>Lattice-based cryptography is the leading candidate (CRYSTALS-Kyber, Dilithium)</li>
+    <li>NIST finalized its first post-quantum standards in 2024</li>
+    <li>Migration to PQC is now a priority for governments and enterprises worldwide</li>
+  </ul>
+  <p>The goal: secure data that remains safe even in the quantum era.</p>
+</div>
+
+<hr>
+
+<h2>// Summary</h2>
+
+<p>
+  Cryptography is in a period of unprecedented disruption. AI lowers the barrier for
+  sophisticated attacks while quantum computing threatens the mathematical foundations
+  of modern encryption. Post-quantum cryptography is the industry's answer — but the
+  transition must happen before quantum hardware catches up.
+</p>
+
+{% endblock %}
