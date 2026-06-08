@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Advanced Cryptography Platform</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
 
-<!-- HEADER -->
 <header>
   <h2 class="logo">🔐 CryptoPlatform</h2>
   <nav class="navbar">
@@ -18,19 +15,19 @@
     <a href="/symmetric">Symmetric</a>
     <a href="/asymmetric">Asymmetric</a>
     <a href="/hashing">Hashing</a>
+    <a href="/classical">Classical</a>
+    <a href="/stream">Stream</a>
     <a href="/threats">Threats</a>
   </nav>
 </header>
 
-<!-- MAIN CONTENT -->
 <main class="container">
   {% block content %}
   {% endblock %}
 </main>
 
-<!-- FOOTER -->
 <footer>
-  <p>Advanced Cryptography Project &nbsp;|&nbsp; Python Flask &nbsp;|&nbsp; AES • RSA • SHA-256</p>
+  <p>Advanced Cryptography Project &nbsp;|&nbsp; Python Flask &nbsp;|&nbsp; AES • RSA • SHA-256 • Caesar • Vigenère</p>
 </footer>
 
 </body>

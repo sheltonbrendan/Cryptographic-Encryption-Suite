@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Stream Ciphers & Randomness</h1>
+<p>
+  Stream ciphers encrypt data one bit or byte at a time using a pseudorandom keystream.
+  The LFSR generates the keystream while RC4 applies it to encrypt messages.
+</p>
+
+<hr>
+
+<h2>LFSR Generator</h2>
+
+<form method="POST">
+  <input type="hidden" name="action" value="lfsr">
+
+  <label>Seed (binary bits only — e.g. 1011)</label>
+  <input type="text" name="lfsr_seed" placeholder="e.g. 1011" value="{{ lfsr_seed }}">
+
+  <br><br>
+
+  <label>Tap Positions (comma-separated — e.g. 0,2)</label>
+  <input type="text" name="lfsr_taps" placeholder="e.g. 0,2" value="{{ lfsr_taps }}">
+
+  <br><br>
+  <button type="submit">Generate Sequence</button>
+</form>
+
+{% if error and action == 'lfsr' %}
+<div style="margin-top:1.5rem;background:rgba(255,0,110,0.08);border:1px solid rgba(255,0,110,0.4);
+border-left:3px solid #ff006e;border-radius:2px;padding:1rem 1.25rem;
+font-family:'Share Tech Mono',monospace;font-size:0.85rem;color:#ff006e;
+text-shadow:0 0 8px #ff006e;">⚠ {{ error }}</div>
+{% endif %}
+
+{% if lfsr_bits %}
+<hr>
+
+<h2>Pseudorandom Sequence Output</h2>
+
+<h3>64-Bit Output Sequence</h3>
+<div class="box">{{ lfsr_bits_str }}</div>
+
+<h3>Bit Visualisation</h3>
+<div style="display:flex;flex-wrap:wrap;gap:4px;margin:1rem 0;">
+  {% for bit in lfsr_bits %}
+  <div style="
+    width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+    font-family:'Share Tech Mono',monospace;font-size:0.75rem;border-radius:2px;
+    {% if bit == 1 %}
+    background:rgba(0,245,255,0.15);border:1px solid rgba(0,245,255,0.4);color:#00f5ff;
+    text-shadow:0 0 6px #00f5ff;
+    {% else %}
+    background:rgba(255,0,110,0.1);border:1px solid rgba(255,0,110,0.3);color:#ff006e;
+    {% endif %}
+  ">{{ bit }}</div>
+  {% endfor %}
+</div>
+
+<h3>Performance</h3>
+<div class="box">LFSR generated 64 bits in {{ lfsr_time }} ms</div>
+
+<hr>
+
+<h2>Statistical Randomness Testing</h2>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+
+  <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,245,255,0.2);
+  border-radius:4px;padding:1.25rem;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;
+    color:#5a7a9a;letter-spacing:0.1em;margin-bottom:0.5rem;">FREQUENCY TEST</div>
+    <div style="font-family:'Orbitron',monospace;font-size:1.1rem;
+    color:{% if stats.freq_pass %}#00ff9f{% else %}#ff006e{% endif %};
+    text-shadow:0 0 8px {% if stats.freq_pass %}#00ff9f{% else %}#ff006e{% endif %};">
+      {% if stats.freq_pass %}PASS ✔{% else %}FAIL ✘{% endif %}
+    </div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.78rem;
+    color:#c8d8e8;margin-top:0.5rem;">
+      Ones: {{ stats.ones }} | Zeros: {{ stats.zeros }}<br>
+      Balance: {{ stats.balance_ratio }}%
+    </div>
+  </div>
+
+  <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,245,255,0.2);
+  border-radius:4px;padding:1.25rem;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;
+    color:#5a7a9a;letter-spacing:0.1em;margin-bottom:0.5rem;">RUNS TEST</div>
+    <div style="font-family:'Orbitron',monospace;font-size:1.1rem;
+    color:{% if stats.runs_pass %}#00ff9f{% else %}#ff006e{% endif %};
+    text-shadow:0 0 8px {% if stats.runs_pass %}#00ff9f{% else %}#ff006e{% endif %};">
+      {% if stats.runs_pass %}PASS ✔{% else %}FAIL ✘{% endif %}
+    </div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.78rem;
+    color:#c8d8e8;margin-top:0.5rem;">
+      Runs: {{ stats.runs }} | Expected: {{ stats.expected_runs }}<br>
+      Longest run: {{ stats.longest_run }} bits
+    </div>
+  </div>
+
+</div>
+
+<h3>Total Bits Analysed</h3>
+<div class="box">{{ stats.total }} bits generated — Frequency: {{ stats.balance_ratio }}% ones</div>
+
+{% endif %}
+
+<hr>
+
+<h2>RC4 Stream Cipher</h2>
+
+<form method="POST">
+  <input type="hidden" name="action" value="rc4">
+
+  <label>Message</label>
+  <input type="text" name="rc4_message" placeholder="e.g. HELLO WORLD" value="{{ rc4_message }}">
+
+  <br><br>
+
+  <label>Secret Key (min 3 characters)</label>
+  <input type="text" name="rc4_key" placeholder="e.g. SECRETKEY" value="{{ rc4_key }}">
+
+  <br><br>
+  <button type="submit">Encrypt with RC4</button>
+</form>
+
+{% if error and action == 'rc4' %}
+<div style="margin-top:1.5rem;background:rgba(255,0,110,0.08);border:1px solid rgba(255,0,110,0.4);
+border-left:3px solid #ff006e;border-radius:2px;padding:1rem 1.25rem;
+font-family:'Share Tech Mono',monospace;font-size:0.85rem;color:#ff006e;
+text-shadow:0 0 8px #ff006e;">⚠ {{ error }}</div>
+{% endif %}
+
+{% if rc4_encrypted %}
+<hr>
+
+<h2>Encryption Performance Results</h2>
+
+<h3>Keystream (first 16 bytes — hex)</h3>
+<div class="box">{{ rc4_keystream_hex }}</div>
+
+<h3>Encrypted Output (hex)</h3>
+<div class="box">{{ rc4_encrypted_hex }}</div>
+
+<h3>Decrypted Output</h3>
+<div class="box">{{ rc4_decrypted }}</div>
+
+<h3>Performance</h3>
+<div class="box">
+  RC4 encrypted {{ rc4_message|length }} characters in {{ rc4_time }} ms<br>
+  Throughput: {{ (rc4_message|length / (rc4_time + 0.0001) * 1000)|round|int }} bytes/sec
+</div>
+
+{% endif %}
+
+<hr>
+
+<h2>How LFSR Works</h2>
+<ul>
+  <li>Linear Feedback Shift Register uses a binary seed and tap positions</li>
+  <li>Each clock cycle shifts bits and XORs selected positions to generate feedback</li>
+  <li>Produces a deterministic but pseudorandom bit sequence</li>
+  <li>Period length depends on tap selection — maximum length requires primitive polynomials</li>
+</ul>
+
+<h2>How RC4 Works</h2>
+<ul>
+  <li>RC4 uses a key-scheduling algorithm to initialise a 256-byte state array</li>
+  <li>A pseudorandom generation algorithm produces a keystream byte by byte</li>
+  <li>Each plaintext byte is XORed with a keystream byte to produce ciphertext</li>
+  <li>Decryption is identical — XOR the ciphertext with the same keystream</li>
+  <li>RC4 is now considered cryptographically weak and deprecated in modern systems</li>
+</ul>
+
+{% endblock %}

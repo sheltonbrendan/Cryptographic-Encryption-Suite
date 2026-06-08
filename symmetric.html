@@ -2,42 +2,103 @@
 
 {% block content %}
 
-<h1>Symmetric Encryption</h1>
-
+<h1>Symmetric Encryption (AES)</h1>
 <p>
-  Symmetric encryption uses a single secret key for both encryption and decryption.
-  It is fast, efficient, and widely used in secure communication systems.
+  Symmetric encryption utilizes a single secret key shared between parties to perform both encryption and decryption. 
+  It provides ultra-low latency operational throughput, making it the industry standard for bulk data security.
 </p>
 
 <hr>
 
-<h2>// Encrypt & Decrypt</h2>
+<h2>AES-128 Block Cipher Engine</h2>
 
-<form method="POST">
-  <label>Enter Message</label>
-  <input type="text" name="message" placeholder="Type your message here" required>
+<form method="POST" enctype="multipart/form-data">
+  <label>Option A: Plaintext Message Input</label>
+  <input type="text" name="message" placeholder="Type message payload here..." value="{{ message if message else '' }}">
+
   <br><br>
-  <button type="submit">Encrypt & Decrypt</button>
+
+  <label>Option B: Document Upload (.txt attachment only)</label><br>
+  <input type="file" name="file_input" accept=".txt" style="
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 245, 255, 0.15);
+    padding: 0.5rem;
+    border-radius: 2px;
+    color: #c8d8e8;
+    font-family: 'Share Tech Mono', monospace;
+  ">
+
+  <br><br>
+  <button type="submit">Run AES Engine</button>
 </form>
+
+{% if error %}
+<div style="margin-top:1.5rem;background:rgba(255,0,110,0.08);border:1px solid rgba(255,0,110,0.4);
+border-left:3px solid #ff006e;border-radius:2px;padding:1rem 1.25rem;
+font-family:'Share Tech Mono',monospace;font-size:0.85rem;color:#ff006e;
+text-shadow:0 0 8px #ff006e;">⚠ {{ error }}</div>
+{% endif %}
 
 {% if encrypted %}
 <hr>
-<h3>Encrypted Message</h3>
-<div class="box">{{ encrypted }}</div>
 
-<h3>Decrypted Message</h3>
-<div class="box">{{ decrypted }}</div>
+<h2>Symmetric Performance Testing Metrics</h2>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+
+  <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,245,255,0.2);
+  border-radius:4px;padding:1.25rem;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;
+    color:#5a7a9a;letter-spacing:0.1em;margin-bottom:0.5rem;">SOURCE PROCESSED</div>
+    <div style="font-family:'Orbitron',monospace;font-size:1.1rem;color:#00ff9f;
+    text-shadow:0 0 8px #00ff9f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+      SUCCESS ✔
+    </div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.78rem;
+    color:#c8d8e8;margin-top:0.5rem; word-break: break-all;">
+      Target: {{ filename_used }}
+    </div>
+  </div>
+
+  <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,245,255,0.2);
+  border-radius:4px;padding:1.25rem;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;
+    color:#5a7a9a;letter-spacing:0.1em;margin-bottom:0.5rem;">EXECUTION SPEED</div>
+    <div style="font-family:'Orbitron',monospace;font-size:1.1rem;color:#00f5ff;
+    text-shadow:0 0 8px #00f5ff;">
+      {{ aes_time }} ms
+    </div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.78rem;
+    color:#c8d8e8;margin-top:0.5rem;">
+      Cipher Mode: CBC (Authenticated)<br>
+      Status: Optimized Pipeline
+    </div>
+  </div>
+
+</div>
+
+<h3>Total Workspace Volume</h3>
+<div class="box">AES Transformation complete. Payload Length: {{ decrypted|length }} characters handled.</div>
+
+<hr>
+
+<h2>Cryptographic Transformation Outputs</h2>
+
+<h3>Encrypted Ciphertext Token (Base64)</h3>
+<div class="box" style="word-break: break-all; color: #ff006e; text-shadow: 0 0 4px rgba(255,0,110,0.2);">{{ encrypted }}</div>
+
+<h3>Decrypted Plaintext Recovery</h3>
+<div class="box" style="word-break: break-all; color: #00ff9f; text-shadow: 0 0 4px rgba(0,255,159,0.2);">{{ decrypted }}</div>
 {% endif %}
 
 <hr>
 
-<h2>// How It Works</h2>
-
+<h2>How AES & Symmetric Ciphers Work</h2>
 <ul>
-  <li>A secret key is generated using Python's Fernet (AES-128 under the hood)</li>
-  <li>The same key encrypts and decrypts the message</li>
-  <li>If the key is lost, the data cannot be recovered</li>
-  <li>Fernet guarantees data integrity — tampered data will be rejected</li>
+  <li><strong>Shared Secret Key:</strong> A single cryptographically strong key handles both encryption and decryption routines. If key security is breached, the data is completely compromised.</li>
+  <li><strong>Fernet Implementation:</strong> This backend uses Python's Fernet specification, driving 128-bit AES block cipher operations configured in Cipher Block Chaining (CBC) mode under the hood.</li>
+  <li><strong>Cryptographic Integrity:</strong> Fernet automatically bonds an initialization vector (IV) and an HMAC (Hash-based Message Authentication Code) signature to the raw token. This prevents padding-oracle vulnerabilities and drops altered, tampered payloads during execution.</li>
+  <li><strong>Stateless Lifecycle:</strong> Because standard HTTP requests do not preserve parameters across sessions, a secure, unique sequence runtime token is independently generated inside each separate submission envelope.</li>
 </ul>
 
 {% endblock %}

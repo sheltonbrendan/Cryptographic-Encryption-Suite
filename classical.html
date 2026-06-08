@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Classical Ciphers</h1>
+
+<p>
+  Classical ciphers are the foundation of modern cryptography. Before computers,
+  armies and governments relied on substitution techniques to protect communications.
+</p>
+
+<hr>
+
+<h2>// Caesar & Vigenère Cipher</h2>
+
+<form method="POST">
+  <label>Message (letters and spaces only)</label>
+  <input type="text" name="message" placeholder="e.g. HELLO WORLD" value="{{ message }}">
+
+  <br><br>
+
+  <label>Caesar Shift (1 – 25)</label>
+  <input type="text" name="caesar_shift" placeholder="e.g. 3" value="{{ caesar_shift }}">
+
+  <br><br>
+
+  <label>Vigenère Key (letters only)</label>
+  <input type="text" name="vigenere_key" placeholder="e.g. KEY" value="{{ vigenere_key }}">
+
+  <br><br>
+  <button type="submit">Run Ciphers</button>
+</form>
+
+{% if error %}
+<div style="
+  margin-top: 1.5rem;
+  background: rgba(255,0,110,0.08);
+  border: 1px solid rgba(255,0,110,0.4);
+  border-left: 3px solid #ff006e;
+  border-radius: 2px;
+  padding: 1rem 1.25rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  color: #ff006e;
+  text-shadow: 0 0 8px #ff006e;
+">
+  ⚠ {{ error }}
+</div>
+{% endif %}
+
+{% if caesar_encrypted %}
+<hr>
+
+<h2>// Caesar Cipher — Implementation</h2>
+
+<h3>Encrypted Output</h3>
+<div class="box">{{ caesar_encrypted }}</div>
+
+<h3>Decrypted Output</h3>
+<div class="box">{{ caesar_decrypted }}</div>
+
+{% if caesar_steps %}
+<h3>Step-by-Step Trace</h3>
+<div style="
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(0,245,255,0.15);
+  border-radius: 2px;
+  padding: 1rem 1.25rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 2;
+">
+  {% for step in caesar_steps %}
+  <div style="color:#ffd600; text-shadow: 0 0 6px rgba(255,214,0,0.3);">▸ {{ step }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<hr>
+
+<h2>// Vigenère Cipher — Encryption Process</h2>
+
+<h3>Encrypted Output</h3>
+<div class="box">{{ vigenere_encrypted }}</div>
+
+<h3>Decrypted Output</h3>
+<div class="box">{{ vigenere_decrypted }}</div>
+
+{% if vigenere_steps %}
+<h3>Step-by-Step Trace</h3>
+<div style="
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(0,245,255,0.15);
+  border-radius: 2px;
+  padding: 1rem 1.25rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 2;
+">
+  {% for step in vigenere_steps %}
+  <div style="color:#ffd600; text-shadow: 0 0 6px rgba(255,214,0,0.3);">▸ {{ step }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% endif %}
+
+<hr>
+
+<h2>// How Caesar Cipher Works</h2>
+<ul>
+  <li>Each letter is shifted forward by a fixed number in the alphabet</li>
+  <li>With shift 3: A → D, B → E, Z → C (wraps around)</li>
+  <li>Only 25 possible keys — easily broken by brute force</li>
+  <li>Used by Julius Caesar to protect military communications (~58 BC)</li>
+</ul>
+
+<h2>// How Vigenère Cipher Works</h2>
+<ul>
+  <li>Uses a repeating keyword instead of a single shift value</li>
+  <li>Each letter of the keyword determines the shift for that position</li>
+  <li>Example: key "KEY" applies shifts of 10, 4, 24 repeating across the message</li>
+  <li>Resisted cryptanalysis for 300 years before being broken by Kasiski in 1863</li>
+</ul>
+
+{% endblock %}
